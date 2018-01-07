@@ -1,0 +1,24 @@
+package Basketballmanager.gui.gamechoose;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import Basketballmanager.constant.Const_UI;
+
+/**
+ * 选择游戏模式
+ * @author Fang Hongbo
+ *
+ */
+public class modeChoose extends JPanel{
+	private JButton chooseDynasty=new JButton("Dynasty mode");
+	private JButton chooseCrazy=new JButton("Crazy mode");
+	
+	modeChoose()
+	{
+		this.setSize(Const_UI.MODE_WIDTH,Const_UI.MODE_HEIGHT);
+		this.setLocation(50, 50);
+		this
+	}
+	
+}

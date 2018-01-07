@@ -1,0 +1,13 @@
+package Basketballmanager.gui.onGame;
+
+import javax.swing.JPanel;
+
+import Basketballmanager.constant.Const_UI;
+
+public class controlPanelOffense extends JPanel{
+	controlPanelOffense()
+	{
+		this.setSize(Const_UI.CONTROLDETAIL_WIDTH, Const_UI.CONTROLDETAIL_HEIGHT);
+		this.setVisible(true);
+	}
+}

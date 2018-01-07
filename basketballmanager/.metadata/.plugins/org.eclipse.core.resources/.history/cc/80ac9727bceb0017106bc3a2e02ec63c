@@ -1,0 +1,24 @@
+package Basketballmanager.gui.onGame;
+
+import java.awt.Color;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import Basketballmanager.constant.Const_UI;
+
+public class chattingPanel extends JPanel{
+	
+	JTextArea Input = new JTextArea();
+	JTextArea Output= new JTextArea();
+    JScrollPane scroll;
+
+	chattingPanel()
+	{
+		this.setSize(Const_UI.CHAT_WIDTH,Const_UI.CHAT_HEIGHT);
+		this.setBackground(Color.BLUE);
+		Input.setLineWrap(true);
+		scroll=new JScrollPane(Output);
+	}
+}

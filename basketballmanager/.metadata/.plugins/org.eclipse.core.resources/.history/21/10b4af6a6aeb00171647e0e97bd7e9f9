@@ -1,0 +1,58 @@
+package Basketballmanager.gui.gamechoose;
+
+import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import Basketballmanager.constant.Const_UI;
+
+/**
+ * 选择游戏模式
+ * @author Fang Hongbo
+ *
+ */
+public class modeChoose extends JPanel implements MouseListener{
+	private JButton chooseDynasty=new JButton("Dynasty mode");
+	private JButton chooseCrazy=new JButton("Crazy mode");
+	modeChoose()
+	{
+		this.setSize(Const_UI.MODE_WIDTH,Const_UI.MODE_HEIGHT);
+		this.setLocation(50, 50);
+		this.setLayout(new GridLayout(11,1));
+		chooseDynasty.addMouseListener(this);
+		
+		this.add(chooseDynasty);
+		this.add(chooseCrazy);
+		this.setOpaque(true);
+		this.setVisible(true);
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

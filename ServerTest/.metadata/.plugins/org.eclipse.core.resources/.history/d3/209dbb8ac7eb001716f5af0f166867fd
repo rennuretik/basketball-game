@@ -1,0 +1,5 @@
+package constIndex;
+
+public class constIndex {
+	public static final int type_number=15;
+}

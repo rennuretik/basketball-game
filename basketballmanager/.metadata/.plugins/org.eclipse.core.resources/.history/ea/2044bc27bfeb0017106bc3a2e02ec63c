@@ -1,0 +1,19 @@
+package Basketballmanager.player;
+
+public class player {
+	//attribute measure the condition of player
+	public final String name;
+	public final static int list_number=14;
+	public int attribute[];
+	public boolean onCourt=false;//false for on court, true for on court
+	public int energy;
+	public int currentPosition=
+	player(String Name, int a[])
+	{
+		//initial player information
+		name=Name;
+		attribute=new int[list_number];
+		for(int i=0;i<list_number;i++)
+			attribute[i]=a[i];
+	}
+}

@@ -1,0 +1,359 @@
+package server;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+
+import server.constant.constant;
+import server.game.gameOn;
+
+public class ServerThread extends Thread {
+
+	public Socket gamer1;
+	public Socket gamer2;
+
+	public InputStream ins1;
+	public OutputStream ous1;
+	public InputStream ins2;
+	public OutputStream ous2;
+	public gameOn GAME;
+	public volatile boolean End = false;// Whether the game is ended
+	public volatile boolean RotateAllowed = false;
+	public volatile boolean Sending = false;// set to true after all below is OK
+	// need to set OK
+	public volatile String SendingWords;
+	public volatile int Score[] = new int[2];// Score for team A and B
+	public volatile int TimeRemainning;
+
+	private int[][] Decision = new int[6][];// 存储教练的战术设置
+
+	public ServerThread(Socket socket, Socket socket2, int type) throws IOException {
+		this.gamer1 = socket;
+		this.gamer2 = socket2;
+		ins1 = socket.getInputStream();
+		ous1 = socket.getOutputStream();
+		ins2 = socket2.getInputStream();
+		ous2 = socket2.getOutputStream();
+		GAME = new gameOn(type, this);
+	}
+
+	public void run() {
+
+		// to store coach's decision
+		for (int i = 0; i < 4; i++) {
+			Decision[i] = new int[5];
+		}
+		for (int i = 0; i < 2; i++) {
+			Decision[i + 4] = new int[1];
+		}
+
+		try {
+			// 链接成功信号
+			sendMsg(ous1, "1");// 客户端1连接成功
+			sendMsg(ous2, "1");// 客户端2连接成功
+
+			// 持方抽签结果
+			sendMsg(ous1, "0");// 1号客户端持方抽签结果
+			sendMsg(ous2, "1");// 2号客户端持方抽签结果
+
+			sendMsg(ous1,Myserver.TeamName[GAME.gameType][0]); //发送队名，任何一个服务端先接收到的就是自己队伍，后接受到的是对方队伍
+			sendMsg(ous1,Myserver.TeamName[GAME.gameType][1]); //发送队名，任何一个服务端先接收到的就是自己队伍，后接受到的是对方队伍
+
+
+			sendMsg(ous2,Myserver.TeamName[GAME.gameType][1]); //发送队名，任何一个服务端先接收到的就是自己队伍，后接受到的是对方队伍
+			sendMsg(ous2,Myserver.TeamName[GAME.gameType][0]); //发送队名，任何一个服务端先接收到的就是自己队伍，后接受到的是对方队伍
+			
+			// 球员姓名+序号
+			for (int i = 0; i < constant.maxPlayer; i++)// 给1号客户端发送球员姓名和序号
+			{
+				sendMsg(ous1, GAME.Team[constant.TeamA][i].getNamePlayer());
+				sendMsg(ous1, String.valueOf(GAME.Team[constant.TeamA][i].getIndexPlayer()));
+			}
+			for (int i = 0; i < constant.maxPlayer; i++)// 给2号客户端发送球员姓名和序号
+			{
+				sendMsg(ous2, GAME.Team[constant.TeamB][i].getNamePlayer());
+				sendMsg(ous2, String.valueOf(GAME.Team[constant.TeamB][i].getIndexPlayer()));
+			}
+			//给客户端发送对方球员姓名和序号
+			for (int i = 0; i < 5; i++)// 给1号客户端发送对方球员姓名和序号
+			{
+				sendMsg(ous1, GAME.Team[constant.TeamB][i].getNamePlayer());
+				sendMsg(ous1, String.valueOf(GAME.Team[constant.TeamB][i].getIndexPlayer()));
+			}
+			for (int i = 0; i < 5; i++)// 给1号客户端发送对方球员姓名和序号
+			{
+				sendMsg(ous2, GAME.Team[constant.TeamA][i].getNamePlayer());
+				sendMsg(ous2, String.valueOf(GAME.Team[constant.TeamA][i].getIndexPlayer()));
+			}
+			// 初始设定
+			System.out.println("游戏开始前");
+
+			refreshStrategy();// 读取教练设置
+			GAME.run();//游戏开始
+			System.out.println("游戏开始啦!");
+			while (true) {
+				if (End == true) {// 结束比赛
+					sendMsg(ous1, "5555");// 1号客户端游戏正常结束信号
+					sendMsg(ous2, "5555");// 2号客户端游戏正常结束信号
+					sendMsg(ous1, "Game over");// 1号客户端游戏正常结束信号
+					sendMsg(ous2, "Game over");// 1号客户端游戏正常结束信号
+					System.out.println("比赛结束");
+					break;
+				}
+
+				if (Sending == true) {
+						sendMsg(ous1, "8888");// 1号客户端正常语句段开始信号
+						sendMsg(ous2, "8888");// 2号客户端正常语句段开始信号
+						System.out.println("发送正常语句");
+						sendMsg(ous1, SendingWords);// 1号客户端显示语句
+						sendMsg(ous2, SendingWords);// 2号客户端显示语句
+	
+						sendMsg(ous1, String.valueOf(Score[constant.TeamA]));// 1号客户端比分
+						sendMsg(ous1, String.valueOf(Score[constant.TeamB]));// 1号客户端比分
+	
+						sendMsg(ous2, String.valueOf(Score[constant.TeamA]));// 2号客户端比分
+						sendMsg(ous2, String.valueOf(Score[constant.TeamB]));// 2号客户端比分
+	
+						sendMsg(ous1, String.valueOf(TimeRemainning));// 1号客户端剩余时间
+						sendMsg(ous2, String.valueOf(TimeRemainning));// 2号客户端剩余时间
+	
+//						sendMsg(ous1, "9999");// 1号客户端正常语句段结束信号
+//						sendMsg(ous2, "9999");// 2号客户端正常语句段结束信号
+						
+						Sending=false;
+				}
+
+				String Read=readMsg(ins1);
+				//读取换人or 暂停
+				if (Read.equals("9999")==false) {
+					// 如果客户端1有事要做
+					if (Read.equals("4444"))// 客户端强制退出
+					{
+						sendMsg(ous2, "4444");// 异常退出信号
+						break;
+
+					} else if (Read.equals("6666")) {// 客户端1申请暂停
+						sendMsg(ous1, "6666");// 1号客户端发送暂停信号
+						sendMsg(ous2, "6666");// 2号客户端发送暂停信号
+						sendMsg(ous2, Myserver.TeamName[GAME.gameType][0]+"申请暂停");// 1号客户端发送暂停信号
+						sendMsg(ous2, Myserver.TeamName[GAME.gameType][0]+"申请暂停");// 2号客户端发送暂停信号
+						Timeout();
+						continue;
+					}
+					else if(Read.equals("5555"))//换人
+					{
+						refreshChangePlayer(constant.TeamA);
+					}
+				}
+				Read=readMsg(ins2);
+				if (Read.equals("9999")==false) {
+					// 如果客户端2有事要做
+					if (Read.equals("4444"))// 客户端强制退出
+					{
+						sendMsg(ous1, "4444");// 异常退出信号
+						break;
+
+					} else if (Read.equals("6666")) {// 客户端2申请暂停
+						sendMsg(ous1, "6666");// 1号客户端发送暂停信号
+						sendMsg(ous2, "6666");// 2号客户端发送暂停信号
+						sendMsg(ous1, Myserver.TeamName[GAME.gameType][1]+" calls for timeout");// 1号客户端发送暂停信号
+						sendMsg(ous2, Myserver.TeamName[GAME.gameType][1]+" calls for timeout");// 2号客户端发送暂停信号
+						Timeout();
+					}
+					else if(Read.equals("5555"))//换人
+					{
+						refreshChangePlayer(constant.TeamB);
+					}
+				}
+
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			try {
+				ins1.close();
+				ous1.close();
+				ins2.close();
+				ous2.close();
+				gamer1.close();
+				gamer2.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+		}
+	}
+
+
+
+	private void refreshStrategy() {
+		// 四个5
+		try {
+			for (int i = 0; i < 4; i++)// 客户端1
+				for (int j = 0; j < 5; j++)
+					Decision[i][j] = Integer.parseInt(readMsg(ins1));
+			// 进攻防守战术
+			System.out.println("1");
+			for (int i = 0; i < 2; i++) {
+				Decision[i + 4][0] = Integer.parseInt(readMsg(ins1));
+			}
+			System.out.println("2");
+
+			GAME.ChangeStrategy(constant.TeamA, Decision);// 直接把内容给GAME
+			for (int i = 0; i < 4; i++)// 客户端2
+				for (int j = 0; j < 5; j++)
+					Decision[i][j] = Integer.parseInt(readMsg(ins2));
+			System.out.println("2");
+
+			// 进攻防守战术
+			for (int i = 0; i < 2; i++) {
+				Decision[i + 4][0] = Integer.parseInt(readMsg(ins2));
+			}
+			GAME.ChangeStrategy(constant.TeamB, Decision);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void Timeout()
+	{
+		refreshStrategy();// 读取最新的战术数据
+
+		String timeoutEndA=null ; //接受1的回应
+		String timeoutEndB=null;//接受2的回应
+		try {
+			timeoutEndA=readMsg(ins1);
+			timeoutEndB = readMsg(ins2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+		if (timeoutEndA.equals("7777"))// 有换人暂停
+		{
+			refreshChangePlayer(constant.TeamA);
+		} 
+		if (timeoutEndB.equals("7777"))// 客户端B有换人暂停
+		{
+			refreshChangePlayer(constant.TeamB);
+		} 
+		/*
+		if(timeoutEndA!="7777"&&timeoutEndA!="8888"&& timeoutEndB!="7777"&& timeoutEndB!="8888")
+		{
+			System.out.println("暂停出现问题");
+		}
+		*/
+		try {
+			sendMsg(ous1,"9999");//暂停结束
+			sendMsg(ous2,"9999");
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
+	
+	
+	
+	private void refreshChangePlayer(int INDEX) {
+
+		InputStream in=(INDEX==constant.TeamA)?ins1:ins2;
+		String Name=Myserver.TeamName[GAME.gameType][INDEX];
+
+			int[] index=new int[5];
+		
+		
+			try {
+
+				sendMsg(ous1,"7777");
+				sendMsg(ous2,"7777");//换人区块信号
+				
+				
+				
+				sendMsg(ous1,Name+" calls for player change");
+				sendMsg(ous2,Name+" calls for player change");//换人语句
+
+				//发送换人号
+				sendMsg(ous1,String.valueOf(INDEX));
+				sendMsg(ous2,String.valueOf(INDEX));//哪一方换人
+				
+				
+				
+				for(int i=0;i<5;i++)
+				{
+					index[i]=Integer.parseInt(readMsg(in));
+				}
+				
+				GAME.ChangePlayer(INDEX, index);//赋值给Game
+				
+				for(int i=0;i<5;i++)
+				{
+					//把5个位置的值传给各个客户端
+					//姓名+序号
+					sendMsg(ous1,GAME.Team[INDEX][index[i]].getNamePlayer());
+					sendMsg(ous1,String.valueOf(index[i]));
+					sendMsg(ous2,GAME.Team[INDEX][index[i]].getNamePlayer());
+					sendMsg(ous2,String.valueOf(index[i]));//告诉两方换完之后的情况
+				}
+				
+				
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
+			
+			
+			
+		try {
+			sendMsg(ous1,"Player change over");//换人结束
+			sendMsg(ous2,"Player change over");
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	// 读取客户端输入数据的函数
+	public static String readMsg(InputStream ins) throws Exception {
+		// 读取客户端的信息
+		int value = ins.read();
+
+		// 读取整行 读取到回车（13）换行（10）时停止读
+		String str = "";
+		while (value != 10) {
+			// 点击关闭客户端时会返回-1值
+			if (value == -1) {
+				throw new Exception();
+			}
+			str = str + ((char) value);
+			value = ins.read();
+		}
+		str = str.trim();
+		return str;
+	}
+	
+	// 发送消息的函数
+	public static void sendMsg(OutputStream os, String s) throws IOException {
+		// 向客户端输出信息
+		byte[] bytes = s.getBytes();
+		os.write(bytes);
+		os.write(10);
+		os.flush();
+
+	}
+
+}

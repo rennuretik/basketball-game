@@ -1,0 +1,8 @@
+package Basketballmanager.coach;
+
+import Basketballmanager.constant.Const_Game;
+import Basketballmanager.player.player;
+
+public class coach {
+	player[] commandingPlayer=player[Const_Game.maxPlayer]; 
+}

@@ -1,0 +1,21 @@
+package Basketballmanager.gui.gamechoose;
+
+import javax.swing.JPanel;
+
+import Basketballmanager.constant.Const_UI;
+/**
+ * 整个展示框架
+ * @author Fang Hongbo
+ *
+ */
+public class showPanel extends JPanel{
+	
+	private modeChoose ChooseMode;
+	
+	
+	showPanel(){
+    this.setLocation(0, 0);
+    this.setSize(Const_UI.FRAME_WIDTH, Const_UI.FRAME_HEIGHT);
+    
+	}
+}

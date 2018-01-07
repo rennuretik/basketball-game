@@ -1,0 +1,27 @@
+package Basketballmanager.gui.gamechoose;
+
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import Basketballmanager.Listener.mouseListenerFormode;
+import Basketballmanager.constant.Const_UI;
+
+public class modeChooseLayer2 extends JPanel{
+	public static JButton chooseDynasty=new JButton("Dynasty mode");
+	public static JButton chooseCrazy=new JButton("Crazy mode");
+	private mouseListenerFormode Listener=new mouseListenerFormode();
+	modeChooseLayer2()
+	{
+		this.setSize(Const_UI.MODE_WIDTH,Const_UI.MODE_HEIGHT);
+		this.setLocation(50, 50);
+		this.setLayout(new GridLayout(11,1));
+		chooseDynasty.addMouseListener(Listener);
+		chooseCrazy.addMouseListener(Listener);
+		this.add(chooseDynasty);
+		this.add(chooseCrazy);
+		this.setOpaque(true);
+		this.setVisible(true);
+	}
+}

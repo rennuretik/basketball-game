@@ -1,0 +1,19 @@
+
+public class Test {
+	public static void main(String [] args)
+	{
+    	int[][] Decision=new int[5][];
+    	
+        for(int i=0;i<4;i++)
+        {
+        	Decision[i]=new int[5];
+        }
+        for(int i=0;i<2;i++)
+        {
+        	Decision[i+4]=new int[1];
+        }
+        
+        System.out.print(Decision.length);
+        
+	}
+}

@@ -1,0 +1,7 @@
+package Basketballmanager.gui.gamechoose;
+
+import javax.swing.JPanel;
+
+public class showPanel extends JPanel{
+
+}

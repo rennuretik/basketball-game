@@ -1,0 +1,24 @@
+package Basketballmanager.gui.onGame;
+
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import Basketballmanager.constant.Const_UI;
+
+public class controlBarChoose extends JPanel{
+	JButton TimeOutShort=new JButton("暂停");
+	JButton Offense=new JButton("进攻策略");
+	JButton Defense=new JButton("防守策略");
+	JButton Player=new JButton("球员信息");
+
+	controlBarChoose()
+	{
+		this.setLocation(0, 0);
+		this.setSize(Const_UI.CONTROLSTATE_WIDTH, Const_UI.CONTROLSTATE_HEIGHT);
+		this.setLayout(new GridLayout(4,1));
+		this.add(TimeOutShort);
+		
+	}
+}

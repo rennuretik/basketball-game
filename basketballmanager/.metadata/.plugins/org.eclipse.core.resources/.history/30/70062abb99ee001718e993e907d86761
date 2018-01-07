@@ -1,0 +1,17 @@
+package Basketballmanager.gui.onGame;
+
+import javax.swing.JPanel;
+
+import Basketballmanager.constant.Const_Game;
+import Basketballmanager.constant.Const_UI;
+
+public class controlPanelPlayer extends JPanel{
+	
+	playerPortait rotation=new playerPortait[Const_Game.maxPlayer-5];
+	
+	controlPanelPlayer()
+	{
+		this.setSize(Const_UI.CONTROLDETAIL_WIDTH, Const_UI.CONTROLDETAIL_HEIGHT);
+		this.setVisible(true);
+	}
+}

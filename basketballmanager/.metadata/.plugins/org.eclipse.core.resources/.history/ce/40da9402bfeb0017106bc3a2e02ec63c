@@ -1,0 +1,15 @@
+package Basketballmanager.constant;
+/**
+ * 此类定义一些游戏参数的常量
+ * @author user
+ *
+ */
+public class Const_Game {
+	
+	public static final int maxPlayer=15;
+	
+	
+	//attribute serial number
+	public static final int speed_index=0;
+	
+}

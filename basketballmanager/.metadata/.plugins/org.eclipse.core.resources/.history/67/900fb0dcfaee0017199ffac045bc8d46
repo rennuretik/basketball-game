@@ -1,0 +1,5 @@
+package Basketballmanager.card;
+
+public class CardIF {
+
+}

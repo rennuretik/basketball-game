@@ -1,0 +1,92 @@
+package Basketballmanager.Listener;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import Basketballmanager.gui.gamechoose.background;
+import Basketballmanager.gui.gamechoose.modeChoose;
+import Basketballmanager.gui.gamechoose.modeChooseLayer2;
+import Basketballmanager.gui.gamechoose.modeChooseLayer3;
+
+public class mouseListenerFormode implements MouseListener{
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+		
+		
+		if(e.getSource()==modeChoose.chooseDynasty)
+		{
+			background.output.setVisible(false);
+			background.ChooseMode.setVisible(false);
+			background.ChooseMode2.setVisible(true);
+		}
+		else if(e.getSource()==modeChoose.chooseCrazy)
+		{
+			background.output.setVisible(false);
+			background.ChooseMode.setVisible(false);
+			background.ChooseMode3.setVisible(true);
+		}
+		else if(e.getSource()==modeChooseLayer2.Back)
+		{
+			background.output.setVisible(false);
+			background.ChooseMode2.setVisible(false);
+			background.ChooseMode.setVisible(true);
+		}
+		else if(e.getSource()==modeChooseLayer2.Dynasty2015)//enter dynasty 
+		{
+			background.output.setVisible(false);
+			background.ChooseMode2.setVisible(false);
+			
+		}
+		else if(e.getSource()==modeChooseLayer3.Back)
+		{
+			background.output.setVisible(false);
+			background.ChooseMode3.setVisible(false);
+			background.ChooseMode.setVisible(true);
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource()==modeChoose.chooseDynasty)
+		{
+			background.output.setText("王朝模式");
+			background.output.setVisible(true);
+		}
+		else if(e.getSource()==modeChoose.chooseCrazy)
+		{
+			background.output.setText("乱斗模式");
+			background.output.setVisible(true);
+		}
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource()==modeChoose.chooseDynasty)
+		{
+			background.output.setVisible(false);
+		}
+		else if(e.getSource()==modeChoose.chooseCrazy)
+		{
+			background.output.setVisible(false);
+		}
+
+	}
+
+}

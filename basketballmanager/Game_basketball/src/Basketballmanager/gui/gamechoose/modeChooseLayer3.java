@@ -1,0 +1,39 @@
+package Basketballmanager.gui.gamechoose;
+
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import Basketballmanager.Listener.mouseListenerFormode;
+import Basketballmanager.constant.Const_UI;
+
+/**
+ * Crazy Choose
+ * @author Fang Hongbo
+ *
+ */
+public class modeChooseLayer3 extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static JButton VSComp=new JButton("VS Computer");
+	public static JButton VSHum=new JButton("VS Human");
+	public static JButton Back=new JButton("Return");
+	private mouseListenerFormode Listener=new mouseListenerFormode();
+	modeChooseLayer3()
+	{
+		this.setSize(Const_UI.MODE_WIDTH,Const_UI.MODE_HEIGHT);
+		this.setLocation(Const_UI.MODE_X, Const_UI.MODE_Y);
+		this.setLayout(new GridLayout(11,1));
+		VSComp.addMouseListener(Listener);
+		VSHum.addMouseListener(Listener);
+		Back.addMouseListener(Listener);
+		this.add(VSComp);
+		this.add(VSHum);
+		this.add(Back);
+		this.setOpaque(false);
+		this.setVisible(false);
+	}
+}

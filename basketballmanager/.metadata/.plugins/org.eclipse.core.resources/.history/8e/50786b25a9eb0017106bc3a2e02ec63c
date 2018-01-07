@@ -1,0 +1,10 @@
+package Basketballmanager.gui.onGame;
+
+import javax.swing.JPanel;
+
+public class controlBar extends JPanel{
+	controlBar()
+	{
+		
+	}
+}

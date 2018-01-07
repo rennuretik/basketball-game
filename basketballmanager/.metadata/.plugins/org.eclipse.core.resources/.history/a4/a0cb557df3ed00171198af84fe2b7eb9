@@ -1,0 +1,25 @@
+package Basketballmanager.constant;
+/**
+ * 此类定义一些游戏参数的常量
+ * @author user
+ *
+ */
+public class Const_Game {
+	
+	public static final int maxPlayer=15;
+	
+	public static final int Dynasty_2015_final=0;
+	public static final int MaxPlayTime=
+	
+    public static final int TeamAindex=0;
+    public static final int TeamBindex=1;
+	//place information
+	public static final int PG=1;
+	public static final int SG=2;
+	public static final int SF=3;
+	public static final int PF=4;
+	public static final int C=5;
+	//attribute serial number
+	public static final int speed_index=0;
+	
+}

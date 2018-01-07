@@ -1,0 +1,187 @@
+package Basketballmanager.gui.onGame;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import Basketballmanager.client.Myclient;
+import Basketballmanager.constant.Const_Game;
+import Basketballmanager.constant.Const_UI;
+
+public class gamePanel extends JPanel{
+	
+	//对于本地来说，A永远是己方队伍，B永远是敌方队伍
+
+    public static Myclient gameThread=new Myclient();
+    
+    
+    
+    private playerPortait[] PlayerA=new  playerPortait[5]; //team A player on court 
+    private playerPortait[] PlayerB=new  playerPortait[5]; //team B player on court 
+
+    public static controlBar ControlBar=new controlBar();
+  
+    JScrollPane scroll;
+
+	public JTextArea Center_boardcast=new JTextArea() ;
+	    
+	    
+	public static JLabel ScoreA=new JLabel();
+	public static JLabel ScoreB=new JLabel();
+
+	public static JLabel TeamNameA=new JLabel();
+	public static JLabel TeamNameB=new JLabel();
+	public static JLabel TimeRemainning=new JLabel();
+	public gamePanel()
+	{
+		this.setSize(Const_UI.FRAME_WIDTH,Const_UI.FRAME_HEIGHT);
+		this.setLayout(null);
+		//initia size
+		
+		for(int i=0;i<5;i++)
+		{
+			PlayerA[i]=new playerPortait();
+			PlayerB[i]=new playerPortait();
+
+		}
+		
+		PlayerA[0].setLocation(Const_UI.Player1A_X, Const_UI.Player1A_Y);
+		PlayerA[1].setLocation(Const_UI.Player2A_X, Const_UI.Player2A_Y);
+		PlayerA[2].setLocation(Const_UI.Player3A_X, Const_UI.Player3A_Y);
+		PlayerA[3].setLocation(Const_UI.Player4A_X, Const_UI.Player4A_Y);
+		PlayerA[4].setLocation(Const_UI.Player5A_X, Const_UI.Player5A_Y);
+		PlayerB[0].setLocation(Const_UI.Player1B_X, Const_UI.Player1B_Y);
+		PlayerB[1].setLocation(Const_UI.Player2B_X, Const_UI.Player2B_Y);
+		PlayerB[2].setLocation(Const_UI.Player3B_X, Const_UI.Player3B_Y);
+		PlayerB[3].setLocation(Const_UI.Player4B_X, Const_UI.Player4B_Y);
+		PlayerB[4].setLocation(Const_UI.Player5B_X, Const_UI.Player5B_Y);
+		/**
+		 * initialize center boardcast
+		 */
+		Center_boardcast.setSize(Const_UI.MIDDLE_WIDTH,Const_UI.MIDDLE_HEIGHT);
+		Center_boardcast.setLocation(Const_UI.MIDDLE_X,Const_UI.MIDDLE_Y);
+		Center_boardcast.setBackground(Color.blue);
+		Center_boardcast.setCaretPosition(Center_boardcast.getText().length());
+		scroll=new JScrollPane(Center_boardcast);
+
+		scroll.setSize(Const_UI.MIDDLE_WIDTH,Const_UI.MIDDLE_HEIGHT);
+		scroll.setLocation(Const_UI.MIDDLE_X,Const_UI.MIDDLE_Y);
+		Center_boardcast.setEditable(false);
+		Center_boardcast.setLineWrap(true);
+		//add scroller
+        scroll.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
+        
+        
+        ControlBar.setLocation(Const_UI.CONTROL_X, Const_UI.CONTROL_Y);
+
+
+		
+		ScoreA.setSize(Const_UI.SCOREBOARD_WIDTH,Const_UI.SCOREBOARD_HEIGHT);
+		ScoreB.setSize(Const_UI.SCOREBOARD_WIDTH,Const_UI.SCOREBOARD_HEIGHT);
+		ScoreA.setLocation(Const_UI.SCOREBOARD_A_X, Const_UI.SCOREBOARD_A_Y);
+		ScoreB.setLocation(Const_UI.SCOREBOARD_B_X, Const_UI.SCOREBOARD_B_Y);
+
+		ScoreA.setFont(new Font("宋体", Font.PLAIN, 18));
+		ScoreB.setFont(new Font("宋体", Font.PLAIN, 18));
+
+		
+		
+		TeamNameA.setSize(Const_UI.NAMEBOARD_WIDTH,Const_UI.NAMEBOARD_HEIGHT);
+		TeamNameB.setSize(Const_UI.NAMEBOARD_WIDTH,Const_UI.NAMEBOARD_HEIGHT);
+		TeamNameA.setLocation(Const_UI.NAMEBOARD_A_X, Const_UI.NAMEBOARD_A_Y);
+		TeamNameB.setLocation(Const_UI.NAMEBOARD_B_X, Const_UI.NAMEBOARD_B_Y);
+		TimeRemainning.setSize(Const_UI.TIMEBOARD_WIDTH,Const_UI.TIMEBOARD_HEIGHT);
+		TimeRemainning.setLocation(Const_UI.TIMEBOARD_X, Const_UI.TIMEBOARD_Y);
+
+		TeamNameA.setFont(new Font("黑体", Font.BOLD, 18));
+		TeamNameA.setFont(new Font("黑体", Font.BOLD, 18));
+
+		ScoreA.setOpaque(true);
+		ScoreB.setOpaque(true);
+		TeamNameA.setOpaque(true);
+		TeamNameB.setOpaque(true);
+		TimeRemainning.setOpaque(true);
+
+        
+        
+		for(int i=0;i<5;i++)
+		{
+			this.add(PlayerA[i]);
+			this.add(PlayerB[i]);
+
+		}
+		
+		
+		this.add(ScoreA);
+		this.add(ScoreB);
+		this.add(TeamNameA);
+		this.add(TeamNameB);
+		this.add(TimeRemainning);
+
+		this.add(scroll);
+		this.add(ControlBar);
+		this.setOpaque(false);
+		
+	}
+	/**
+	 * Set image for certain frame
+	 * @param index
+	 * @param image
+	 * @param teamNumber
+	 */
+	public void setImageByIcon(int index, Icon image,int teamNumber)
+	{
+		if(teamNumber==Const_Game.TeamAindex)
+		{
+			PlayerA[index].setImageByIcon(image);
+		}
+		else if(teamNumber==Const_Game.TeamBindex){
+			PlayerB[index].setImageByIcon(image);
+		}
+		else{
+			System.out.println("Error In GamePanel, setImage!\n");
+		}
+	}
+	
+	public void setImageByImageIcon(int index, ImageIcon image,int teamNumber)
+	{
+		if(teamNumber==Const_Game.TeamAindex)
+		{
+			PlayerA[index].setImageByImageIcon(image);
+		}
+		else if(teamNumber==Const_Game.TeamBindex){
+			PlayerB[index].setImageByImageIcon(image);
+		}
+		else{
+			System.out.println("Error In GamePanel, setImage!\n");
+		}
+	}
+	
+	
+	/**
+	 * Set Name for certain frame
+	 * @param index
+	 * @param image
+	 * @param teamNumber
+	 */
+	public void setName(int index, String name,int teamNumber)
+	{
+		if(teamNumber==Const_Game.TeamAindex)
+		{
+			PlayerA[index].setName(name);
+		}
+		else if(teamNumber==Const_Game.TeamBindex){
+			PlayerB[index].setName(name);
+		}
+		else{
+			System.out.println("Error In GamePanel, setName!\n");
+		}
+	}
+}

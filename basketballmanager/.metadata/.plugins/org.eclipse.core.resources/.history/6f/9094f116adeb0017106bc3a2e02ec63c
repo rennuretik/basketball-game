@@ -1,0 +1,23 @@
+package Basketballmanager.gui.onGame;
+
+import javax.swing.JPanel;
+
+import Basketballmanager.constant.Const_UI;
+
+public class controlBar extends JPanel{
+	
+	
+	controlBarChoose BarChoose=new controlBarChoose();
+	controlPanelPlayer PlayerDetail= new controlPanelPlayer();
+	controlPanelOffense OffenseDetail= new controlPanelOffense();
+	controlBar()
+	{
+		this.setSize(Const_UI.CONTROL_WIDTH,Const_UI.CONTROL_HEIGHT);
+		this.setLocation(Const_UI.CONTROL_X, Const_UI.CONTROL_Y);
+		this.setLayout(null);
+		BarChoose.setLocation(0, 0);
+		PlayerDetail.setLocation(Const_UI.CONTROLDETAIL_X, Const_UI.CONTROLDETAIL_Y);
+		OffenseDetail.setLocation(Const_UI.CONTROLDETAIL_X, Const_UI.CONTROLDETAIL_Y);
+		
+	}
+}

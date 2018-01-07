@@ -1,0 +1,13 @@
+import java.util.Random;
+
+public class Test {
+	public static void main(String [] args)
+	{
+		Random change=new Random();
+		int state=change.nextInt(2);
+		System.out.println(state);
+		
+		
+		
+	}
+}

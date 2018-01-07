@@ -1,0 +1,46 @@
+package Basketballmanager.gui.onGame;
+
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import Basketballmanager.constant.Const_UI;
+
+public class ControlOffenseChoose extends JPanel implements ActionListener{
+	JButton ballhandling=new JButton("球权分配");
+	JButton scorehandling=new JButton("出手权分配");
+	JButton createOpportunity=new JButton("进攻发起分配");
+	JButton strategy=new JButton("进攻战术分配");
+
+	
+	ControlOffenseChoose()
+	{
+		this.setLayout(new GridLayout(1,4));
+		this.setLocation(Const_UI.ControlPanelChoose_WIDTH, Const_UI.ControlPanelChoose_HEIGHT);
+		ballhandling.addActionListener(this);
+		scorehandling.addActionListener(this);
+		createOpportunity.addActionListener(this);
+		strategy.addActionListener(this);
+		ballhandling.setBackground(Color.GRAY);
+		this.add(ballhandling);
+		this.add(scorehandling);
+		this.add(createOpportunity);
+		this.add(strategy);
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource()==ballhandling)
+		{
+			ballhandling.setBackground(Color.GRAY);
+			scorehandling.setBackground(Color.WHITE);
+		}
+		
+	}
+}

@@ -1,0 +1,24 @@
+package Basketballmanager.player;
+
+public class player {
+	//attribute measure the condition of player
+	public final String name;
+	public final static int list_number=14;
+	public final int speed;
+	public final int strength;
+	public final int score;
+	public final int assist;
+	public final int rebound;
+	public final int enthusiam;
+	public final int defense;
+	public final int offense;
+	public final int block;
+	public final int steal;
+	public final int turnover;
+	public final int focus;
+	public final int shooter;
+	public final int max_energy;
+	public int energy;
+	
+	player(String Name, int a[list_number])
+}

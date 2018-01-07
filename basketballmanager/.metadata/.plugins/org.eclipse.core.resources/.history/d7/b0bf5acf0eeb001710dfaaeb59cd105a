@@ -1,0 +1,39 @@
+package Basketballmanager.player.load;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+public class Information {
+
+	
+	public static void loadAll()
+	{
+		Load_Dynasty();
+		Load_Crazy();
+	}
+	
+	
+    private static void Load_Dynasty(){
+    	//load dynasty module
+        File file = new File("information/Dynasty/1.txt");
+        
+    }
+    
+    private static void Load_Crazy(){
+    	//load dynasty module
+        File file = new File("information/Crazy/1.txt");
+        BufferedReader br=new BufferReader(new InputStreamReader(new FileInputStream(file))); 
+        String str=null; 
+        while((str=br.readLine())!=null) 
+        { 
+        list.add(new Integer(str)); 
+         
+        }
+        Integer[] i=new Integer[list.size()];
+        list.toArray(i);      
+        
+        
+    }
+    
+    
+}

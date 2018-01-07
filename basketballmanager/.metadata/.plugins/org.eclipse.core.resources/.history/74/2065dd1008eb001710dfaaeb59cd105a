@@ -1,0 +1,23 @@
+package Basketballmanager.gui.main;
+
+import java.util.List;
+
+import javax.swing.JFrame;
+
+
+/**
+ * 游戏主窗体
+ * 
+ * @author user
+ * 
+ */
+public class Frame_Main extends JFrame {
+	
+	private static final long serialVersionUID = -6905419069196737546L;
+	public static Frame_Main me;
+	public static GameThread gt;
+	public static boolean isGameOver;
+	// 游戏主面板
+	public static Panel_Main main;
+
+}

@@ -1,0 +1,35 @@
+package Basketballmanager.gui.onGame;
+
+import java.awt.Color;
+
+import javax.swing.JPanel;
+
+import Basketballmanager.constant.Const_Game;
+import Basketballmanager.constant.Const_UI;
+
+public class controlPanelPlayer extends JPanel{
+	
+	playerPortait[] rotation=new playerPortait[Const_Game.maxPlayer-5];
+	
+	controlPanelPlayer()
+	{
+		this.setSize(Const_UI.CONTROLDETAIL_WIDTH, Const_UI.CONTROLDETAIL_HEIGHT);
+		for(int i=0;i<Const_Game.maxPlayer-5;i++)
+		{
+			rotation[i]=new playerPortait();
+		}
+		rotation[0].setLocation(Const_UI.Reverse_1_X, Const_UI.Reverse_1_Y);
+		rotation[1].setLocation(Const_UI.Reverse_2_X, Const_UI.Reverse_2_Y);
+		rotation[2].setLocation(Const_UI.Reverse_3_X, Const_UI.Reverse_3_Y);
+		rotation[3].setLocation(Const_UI.Reverse_4_X, Const_UI.Reverse_4_Y);
+		rotation[4].setLocation(Const_UI.Reverse_5_X, Const_UI.Reverse_5_Y);
+		for(int i=0;i<Const_Game.maxPlayer-5;i++)
+		{
+			rotation[i].setBackground(Color.pink);
+			this.add(rotation[i]);
+		}
+		
+		this.setVisible(true);
+
+	}
+}

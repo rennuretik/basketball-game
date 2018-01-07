@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+<fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="server.game.player"/>
+<fullyQualifiedTypeName name="server.game.Information"/>
+<fullyQualifiedTypeName name="server.game.gameOn"/>
+<fullyQualifiedTypeName name="server.Myserver"/>
+<fullyQualifiedTypeName name="server.ServerThread"/>
+<fullyQualifiedTypeName name="java.util.Random"/>
+<fullyQualifiedTypeName name="server.constant.constant"/>
+</qualifiedTypeNameHistroy>

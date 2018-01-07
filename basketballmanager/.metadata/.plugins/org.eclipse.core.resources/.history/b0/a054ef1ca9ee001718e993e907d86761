@@ -1,0 +1,28 @@
+package Basketballmanager.gui.onGame;
+
+import java.awt.Color;
+
+import javax.swing.JPanel;
+
+import Basketballmanager.constant.Const_UI;
+
+public class controlPanelOffense extends JPanel{
+	
+	public static ControlOffenseChoose chooseBar=new ControlOffenseChoose();
+	public static OrganizePanel organize=new 
+	
+	
+	
+	controlPanelOffense()
+	{
+		this.setSize(Const_UI.CONTROLDETAIL_WIDTH, Const_UI.CONTROLDETAIL_HEIGHT);
+		this.setLayout(null);
+		
+		chooseBar.setLocation(0,0);
+		
+		
+		this.setBackground(Color.BLUE);
+		this.add(chooseBar);
+		this.setVisible(false);
+	}
+}

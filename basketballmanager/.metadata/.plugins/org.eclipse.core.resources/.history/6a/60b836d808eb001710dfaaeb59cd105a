@@ -1,0 +1,20 @@
+package Basketballmanager.gui.main;
+
+import java.util.List;
+
+import javax.swing.JFrame;
+
+
+/**
+ * ÓÎÏ·Ö÷´°Ìå
+ * 
+ * @author user
+ * 
+ */
+public class Frame_Main extends JFrame {
+	
+	private static final long serialVersionUID = -6905419069196737546L;
+	public static Frame_Main me;
+
+
+}

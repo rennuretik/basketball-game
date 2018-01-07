@@ -1,0 +1,10 @@
+package Basketballmanager.util;
+
+import javax.swing.JTextArea;
+
+public class JTextAreaAutoMove {
+	public static AutoMove(JTextArea target)
+	{
+		
+	}
+}
